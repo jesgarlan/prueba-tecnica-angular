@@ -9,6 +9,7 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { ThemeModule } from './@theme/theme.module';
 import { CoreModule } from './@core/core.module';
 import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -23,7 +24,12 @@ import { HttpClientModule } from '@angular/common/http';
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
     NbLayoutModule,
-    NbEvaIconsModule
+    NbEvaIconsModule,
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
