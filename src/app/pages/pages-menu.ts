@@ -4,17 +4,17 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Películas',
     icon: 'film',
-    link: '/pages/home',
+    link: '/pages/movies',
     home: true,
   },
   {
     title: 'Actores',
     icon: 'people',
-    link: '/pages/home',
+    link: '/pages/actors',
   },
   {
     title: 'Estudios',
     icon: 'briefcase',
-    link: '/pages/home',
+    link: '/pages/companies',
   },
 ];
