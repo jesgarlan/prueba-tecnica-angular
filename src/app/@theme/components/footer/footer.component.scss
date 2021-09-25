@@ -1,0 +1,17 @@
+@import "../../styles/themes";
+
+@include nb-install-component() {
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+
+.logotipoCibernos {
+  height: 34px;
+}
+
+.f-right {
+  float: right;
+}
