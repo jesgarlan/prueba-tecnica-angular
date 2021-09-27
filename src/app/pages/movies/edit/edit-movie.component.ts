@@ -46,8 +46,10 @@ export class EditMovieComponent implements OnInit {
 
   async getMovieByID() {
     let res = await this.moviesService.getMovieByID(this.id);
-    if (res)
+    if (res) {
       this.movie = res.body;
+      this.updateForm();
+    }
     else
       this.utilService.showToast(ToastMessage.ErrorGeneric);
     this.loading = false;
@@ -83,8 +85,12 @@ export class EditMovieComponent implements OnInit {
       movie.year = this.movie.year;
       movie.duration = this.movie.duration;
       movie.imdbRating = this.movie.imdbRating;
-      movie.actors = this.movie.actors;
+      movie.actors = [];
+      let actores = [];
+      this.movie.actors.forEach(a => actores.push(this.actors.find((act: any) => act.id == a)));
       this.formEdit.setValue(movie);
+      this.formEdit.controls['actors'].setValue(actores);
+      debugger
       this.loading = false;
     } else {
       this.utilService.showToast(ToastMessage.ErrorGeneric);
@@ -143,7 +149,18 @@ export class EditMovieComponent implements OnInit {
       });
   }
 
-  updateMovie() {
-
+  async updateMovie() {
+    let movie = this.formEdit.value as Movie;
+    movie.id = this.id;
+    await this.moviesService.updateMovie(movie)
+      .finally(() => this.loading = false)
+      .then(async res => {
+        this.router.navigate(['/pages/movies/list']);
+        this.utilService.showToast(ToastMessage.UpdateOK, 'Película');
+      })
+      .catch((error) => {
+        this.utilService.showToast(ToastMessage.ErrorGeneric);
+        console.log(error);
+      });
   }
 }

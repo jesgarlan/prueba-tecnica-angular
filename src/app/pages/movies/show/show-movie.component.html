@@ -1,1 +1,54 @@
-<p>show-movie works!</p>
+<div *ngIf="loading">
+    <div class="lds-dual-ring"></div>
+</div>
+
+<nb-card *ngIf="!loading">
+    <nb-card-header>{{movie.title}} ({{movie.year}})</nb-card-header>
+    <nb-card-body>
+        <div class="row justify-center">
+            <img src="{{movie.poster}}" *ngIf="movie.poster != null">
+        </div>
+        <div class="row mt-3">
+            <div class="col-6">
+                <div class="row">
+                    <span class="bold">Puntuación</span>
+                </div>
+                <div class="row">
+                    <p>{{movie.imdbRating}}</p>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <span class="text-end bold">Duración</span>
+                </div>
+                <div class="row">
+                    <p class="text-end">{{movie.duration}} min</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <span class="bold horizontal-line">Actores</span>
+            <div class="col-6 col-md-4 col-xl-3 mt-3" *ngFor="let a of actors">
+                <nb-user [name]="a.first_name" [title]="a.last_name">
+                </nb-user>
+            </div>
+
+        </div>
+        <div class="row mt-3">
+            <span class="bold horizontal-line">Géneros</span>
+            <div class="col-6 col-md-4 col-xl-3 mt-3" *ngFor="let g of movie.genre">
+                <p>#{{g}}</p>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>
+
+<a href="#/pages/movies/edit/{{movie.id}}">
+    <button nbButton status="success" shape="round" size="giant" class="floating-edit">
+        <nb-icon icon="edit"></nb-icon>
+    </button>
+</a>
+
+<button nbButton status="danger" shape="round" size="giant" class="floating-delete" (click)="deleteMovie()">
+    <nb-icon icon="trash-2"></nb-icon>
+</button>

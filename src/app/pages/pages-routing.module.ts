@@ -28,7 +28,7 @@ const routes: Routes = [{
     },
     {
       path: '',
-      redirectTo: 'movies',
+      redirectTo: 'movies/list',
       pathMatch: 'full',
     }
   ],

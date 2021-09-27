@@ -168,22 +168,6 @@
         9,
         11
       ]
-    },
-    {
-      "title": "Nueva",
-      "poster": null,
-      "genre": [
-        "Crime",
-        "Drama"
-      ],
-      "year": "1996",
-      "duration": "150",
-      "imdbRating": "8",
-      "actors": [
-        "3",
-        "4"
-      ],
-      "id": 11
     }
   ],
   "actors": [
