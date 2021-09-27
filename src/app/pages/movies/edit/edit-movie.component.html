@@ -1,1 +1,105 @@
-<p>edit-movie works!</p>
+<div *ngIf="loading">
+    <div class="lds-dual-ring"></div>
+</div>
+
+<div class="row" *ngIf="!loading">
+    <div class="col-md-12">
+        <nb-card>
+            <nb-card-header>
+                <div class="left bold fs-title"> {{sTitulo}} </div>
+            </nb-card-header>
+            <nb-card-body>
+                <form [formGroup]="formEdit" (ngSubmit)="submitForm()">
+                    <!-- TITLE -->
+                    <div class="form-group">
+                        <label>Título</label>
+                        <input nbInput fullWidth type="text" class="form-control" formControlName="title"
+                            placeholder="Título"
+                            [status]="formEdit.controls.title.dirty ? (formEdit.controls.title.invalid ? 'danger' : 'success') : ''">
+                        <div class="error" *ngIf="formEdit.controls.title.invalid && formEdit.controls.title.dirty">
+                            <i class="fa fa-exclamation-circle mr-1"></i>
+                            <span>{{ validation_messages.title[0].message }}</span>
+                        </div>
+                    </div>
+
+                    <!-- POSTER -->
+                    <div class="form-group">
+                        <label>Póster (url)</label>
+                        <input nbInput fullWidth type="text" class="form-control" formControlName="poster"
+                            placeholder="Póster (url)">
+                    </div>
+
+                    <!-- GENRE -->
+                    <div class="form-group">
+                        <label>Géneros</label>
+                        <nb-select multiple fullWidth placeholder="Añade un género" formControlName="genre">
+                            <nb-option *ngFor="let g of genre" value="{{g}}">{{g}}
+                            </nb-option>
+                        </nb-select>
+                    </div>
+
+                    <!-- ACTORS -->
+                    <div class="form-group">
+                        <label>Actores</label>
+                        <nb-select multiple fullWidth placeholder="Selecciona un actor" formControlName="actors">
+                            <nb-option *ngFor="let a of actors" value="{{a.id}}">{{a.first_name}} {{a.last_name}}
+                            </nb-option>
+                        </nb-select>
+                        <div class="error" *ngIf="formEdit.controls.actors.dirty && formEdit.controls.actors.invalid">
+                            <i class="fa fa-exclamation-circle mr-1"></i>
+                            <span>{{ validation_messages.actors[0].message }}</span>
+                        </div>
+                    </div>
+
+                    <!-- YEAR -->
+                    <div class="form-group">
+                        <label>Año</label>
+                        <input nbInput fullWidth type="text" class="form-control" formControlName="year"
+                            placeholder="Año"
+                            [status]="formEdit.controls.year.dirty ? (formEdit.controls.year.invalid ? 'danger' : 'success') : ''">
+                        <div class="error" *ngIf="formEdit.controls.year.invalid && formEdit.controls.year.dirty">
+                            <i class="fa fa-exclamation-circle mr-1"></i>
+                            <span>{{ validation_messages.year[0].message }}</span>
+                        </div>
+                    </div>
+
+                    <!-- DURATION -->
+                    <div class="form-group">
+                        <label>Duración</label>
+                        <input nbInput fullWidth type="text" class="form-control" formControlName="duration"
+                            placeholder="Duración"
+                            [status]="formEdit.controls.duration.dirty ? (formEdit.controls.duration.invalid ? 'danger' : 'success') : ''">
+                        <div class="error"
+                            *ngIf="formEdit.controls.duration.invalid && formEdit.controls.duration.dirty">
+                            <i class="fa fa-exclamation-circle mr-1"></i>
+                            <span>{{ validation_messages.duration[0].message }}</span>
+                        </div>
+                    </div>
+
+                    <!-- IMDBRATING -->
+                    <div class="form-group">
+                        <label>Puntuación</label>
+                        <input nbInput fullWidth type="text" class="form-control" formControlName="imdbRating"
+                            placeholder="Puntuación"
+                            [status]="formEdit.controls.imdbRating.dirty ? (formEdit.controls.imdbRating.invalid ? 'danger' : 'success') : ''">
+                        <div class="error"
+                            *ngIf="formEdit.controls.imdbRating.invalid && formEdit.controls.imdbRating.dirty">
+                            <i class="fa fa-exclamation-circle mr-1"></i>
+                            <span>{{ validation_messages.imdbRating[0].message }}</span>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3 mi-auto">
+                        <div class="col-6">
+                            <a type="button">Volver</a>
+                        </div>
+                        <div class="col-6">
+                            <button nbButton status="success" type="submit"
+                                [disabled]="!formEdit.valid">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

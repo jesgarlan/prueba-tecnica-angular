@@ -4,7 +4,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Películas',
     icon: 'film',
-    link: '/pages/movies',
+    link: '/pages/movies/list',
     home: true,
   },
   {

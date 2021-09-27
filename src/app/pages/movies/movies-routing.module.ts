@@ -18,13 +18,12 @@ const routes: Routes = [{
       component: ShowMovieComponent,
     },
     {
-      path: 'edit/:id',
+      path: 'create',
       component: EditMovieComponent,
     },
     {
-      path: '',
-      redirectTo: 'list',
-      pathMatch: 'full',
+      path: 'edit/:id',
+      component: EditMovieComponent,
     }
   ],
 }];

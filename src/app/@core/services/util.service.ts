@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ToastMessage } from './ToastMessage';
 
@@ -12,21 +13,36 @@ export class UtilService {
   constructor(private toastr: ToastrService) {
   }
 
+  public genre = [
+    "Action",
+    "Adventure",
+    "Animation",
+    "Comedy",
+    "Crime",
+    "Drama",
+    "Horror",
+    "Musical",
+    "Romance",
+    "Sci-Fi",
+    "Thriller",
+    "War"
+  ];
+
   //#region TOAST
   showToast(m: ToastMessage, alias?: string, response?: string) {
     let message: string;
     let type: any;
     switch (m) {
       case ToastMessage.CreateOK:
-        message = `${alias} creado correctamente`;
+        message = `${alias} creada correctamente`;
         type = 'toast-success';
         break;
       case ToastMessage.UpdateOK:
-        message = `${alias} actualizado correctamente`;
+        message = `${alias} actualizada correctamente`;
         type = 'toast-success';
         break;
       case ToastMessage.DeleteOK:
-        message = `${alias} eliminado correctamente`;
+        message = `${alias} eliminada correctamente`;
         type = 'toast-success';
         break;
       case ToastMessage.ValidationError:
@@ -53,4 +69,15 @@ export class UtilService {
     this.toastr.show(message, '', undefined, type);
   }
   //#endregion TOAST
+
+  validateForm(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateForm(control);
+      }
+    });
+  }
 }
