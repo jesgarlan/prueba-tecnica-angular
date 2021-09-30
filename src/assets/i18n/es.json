@@ -28,7 +28,7 @@
             "genre": "Géneros",
             "actors": "Actores",
             "year": "Año",
-            "duration": "Duración",
+            "duration": "Duración (min)",
             "imdbRating": "Puntuación",
             "btn-save": "Guardar"
         },
