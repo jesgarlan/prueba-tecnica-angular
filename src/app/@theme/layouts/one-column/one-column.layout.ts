@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { NbMenuService, NbSidebarService } from '@nebular/theme';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-one-column-layout',
@@ -19,4 +21,14 @@ import { Component } from '@angular/core';
     </nb-layout>
   `,
 })
-export class OneColumnLayoutComponent {}
+export class OneColumnLayoutComponent {
+
+  alive = true;
+
+  constructor(private menuService: NbMenuService,
+    private sidebarService: NbSidebarService) {
+    this.menuService.onItemSelect()
+      .pipe(takeWhile(() => this.alive))
+      .subscribe(() => this.sidebarService.collapse('menu-sidebar'));
+  }
+}
