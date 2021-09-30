@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NbMenuService, NbSidebarService } from '@nebular/theme';
+import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { takeWhile } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { map, takeUntil, takeWhile } from 'rxjs/operators';
 import { TranslationService } from '../@core/services/translation.service';
 import { MENU_ITEMS } from './pages-menu';
 
@@ -19,11 +20,14 @@ export class PagesComponent implements OnInit {
 
   public menu;
   alive = true;
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private translate: TranslateService,
     private translationService: TranslationService,
     private menuService: NbMenuService,
-    private sidebarService: NbSidebarService) { }
+    private sidebarService: NbSidebarService,
+    public breakpointService: NbMediaBreakpointsService,
+    private themeService: NbThemeService) { }
 
   ngOnInit() {
     this.menu = MENU_ITEMS;
@@ -32,9 +36,19 @@ export class PagesComponent implements OnInit {
       this.translationService.translateArray(this.menu, 'menu');
     });
 
-    this.menuService.onItemSelect()
-      .pipe(takeWhile(() => this.alive))
-      .subscribe(() => this.sidebarService.collapse('menu-sidebar'));
+    const { xl } = this.breakpointService.getBreakpointsMap();
+    this.themeService.onMediaQueryChange()
+      .pipe(
+        map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
+        takeUntil(this.destroy$),
+      )
+      .subscribe((isLessThanXl: boolean) => {
+        if (isLessThanXl) {
+          this.menuService.onItemSelect()
+            .pipe(takeWhile(() => this.alive))
+            .subscribe(() => this.sidebarService.collapse('menu-sidebar'));
+        }
+      });
   }
 
 }
