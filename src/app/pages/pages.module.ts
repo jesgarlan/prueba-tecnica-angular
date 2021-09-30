@@ -7,6 +7,9 @@ import { PagesComponent } from './pages.component';
 import { MoviesModule } from './movies/movies.module';
 import { CompaniesModule } from './companies/companies.module';
 import { ActorsModule } from './actors/actors.module';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { HttpLoaderFactory } from '../@core/services/Translate';
 
 
 @NgModule({
@@ -15,9 +18,16 @@ import { ActorsModule } from './actors/actors.module';
     CommonModule,
     PagesRoutingModule,
     ThemeModule,
-    MoviesModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      }
+    })
+    /*MoviesModule,
     CompaniesModule,
-    ActorsModule
+    ActorsModule*/
   ]
 })
 export class PagesModule { }

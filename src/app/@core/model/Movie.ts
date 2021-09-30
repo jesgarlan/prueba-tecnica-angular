@@ -6,5 +6,5 @@ export class Movie {
     year: number;
     duration: number;
     imdbRating: number;
-    actors: number[];
+    actors: string[];
 }

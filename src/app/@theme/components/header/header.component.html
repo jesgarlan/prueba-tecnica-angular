@@ -5,3 +5,12 @@
     </a>
     <a class="logo" href="#" (click)="navigateHome()" [style.font-size]="isLess ? '1.75rem': '2rem'">{{title}}</a>
   </div>
+</div>
+<nb-actions>
+  <nb-action>
+    <nb-select [selected]="currentLang" (selectedChange)="changeLanguage($event)" status="primary">
+      <nb-option *ngFor="let lang of languages" [value]="lang.value">{{ lang.title }}
+      </nb-option>
+    </nb-select>
+  </nb-action>
+</nb-actions>

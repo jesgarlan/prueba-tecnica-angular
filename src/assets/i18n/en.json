@@ -1,0 +1,14 @@
+{
+    "header": {
+        "language": {
+            "title": "Language",
+            "es": "Spanish",
+            "en": "English"
+        }
+    },
+    "menu": {
+        "movies": "Movies",
+        "actors": "Actors",
+        "companies": "Companies"
+    }
+}

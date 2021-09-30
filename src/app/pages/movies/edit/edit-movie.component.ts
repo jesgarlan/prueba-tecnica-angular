@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Movie } from 'src/app/@core/model/Movie';
 import { ActorsService } from 'src/app/@core/services/actors.service';
 import { MoviesService } from 'src/app/@core/services/movies.service';
@@ -27,40 +28,45 @@ export class EditMovieComponent implements OnInit {
     private moviesService: MoviesService,
     private utilService: UtilService,
     private router: Router,
-    private actorsService: ActorsService) {
+    private actorsService: ActorsService,
+    private translate: TranslateService) {
     this.genre = this.utilService.genre;
   }
 
   async ngOnInit() {
+    this.loading = true;
     this.createForm();
     this.getActors();
     if (this.route.snapshot.params.id != null) {
       this.id = this.route.snapshot.params.id;
-      this.sTitulo = "Editar película";
-      this.loading = true;
+      this.sTitulo = this.translate.instant('edit-movie.title-edit');
       this.getMovieByID();
     } else {
-      this.sTitulo = "Añadir película";
+      this.sTitulo = this.translate.instant('edit-movie.title-create');
+      this.loading = false;
     }
   }
 
   async getMovieByID() {
-    let res = await this.moviesService.getMovieByID(this.id);
-    if (res) {
-      this.movie = res.body;
-      this.updateForm();
-    }
-    else
-      this.utilService.showToast(ToastMessage.ErrorGeneric);
-    this.loading = false;
+    await this.moviesService.getMovieByID(this.id)
+      .finally(() => this.loading = false)
+      .then(async (res) => {
+        this.movie = res.body;
+        this.updateForm();
+      })
+      .catch((error) => {
+        this.utilService.showToast(ToastMessage.ShowError, this.translate.instant('edit-movie.show-error'));
+      });
   }
 
   async getActors() {
-    let res = await this.actorsService.getActors();
-    if (res)
-      this.actors = res.body;
-    else
-      this.utilService.showToast(ToastMessage.ErrorGeneric);
+    await this.actorsService.getActors()
+      .then(async (res) => {
+        this.actors = res.body;
+      })
+      .catch((error) => {
+        this.utilService.showToast(ToastMessage.ShowError, this.translate.instant('edit-movie.show-error'));
+      });
   }
 
   //#region FORM
@@ -69,9 +75,12 @@ export class EditMovieComponent implements OnInit {
       title: [null, [Validators.required]],
       poster: [null],
       genre: [null],
-      year: [null, [Validators.required]],
-      duration: [null, [Validators.required]],
-      imdbRating: [null, [Validators.required]],
+      year: [null, [Validators.compose([Validators.required, Validators.max((new Date()).getFullYear())])]],
+      duration: [null, [Validators.compose([
+        Validators.required, Validators.min(0)])]],
+      imdbRating: [null, [Validators.compose([
+        Validators.required, Validators.min(0), Validators.max(10)
+      ])]],
       actors: [null, [Validators.required]],
     });
   }
@@ -85,12 +94,8 @@ export class EditMovieComponent implements OnInit {
       movie.year = this.movie.year;
       movie.duration = this.movie.duration;
       movie.imdbRating = this.movie.imdbRating;
-      movie.actors = [];
-      let actores = [];
-      this.movie.actors.forEach(a => actores.push(this.actors.find((act: any) => act.id == a)));
+      movie.actors = this.movie.actors.map(a => a.toString());
       this.formEdit.setValue(movie);
-      this.formEdit.controls['actors'].setValue(actores);
-      debugger
       this.loading = false;
     } else {
       this.utilService.showToast(ToastMessage.ErrorGeneric);
@@ -100,16 +105,20 @@ export class EditMovieComponent implements OnInit {
 
   validation_messages = {
     'title': [
-      { type: 'required', message: 'Debe de introducir un título.' }
+      { type: 'required', message: 'Debe de introducir un título.' },
     ],
     'year': [
-      { type: 'required', message: 'Debe de introducir un año.' }
+      { type: 'required', message: 'Debe de introducir un año.' },
+      { type: 'max', message: 'El año no puede ser superior al actual.' }
     ],
     'duration': [
-      { type: 'required', message: 'Debe de introducir una duración.' }
+      { type: 'required', message: 'Debe de introducir una duración.' },
+      { type: 'min', message: 'La duración no pude ser inferior a 0.' }
     ],
     'imdbRating': [
-      { type: 'required', message: 'Debe de introducir la puntuación de Imdb.' }
+      { type: 'required', message: 'Debe de introducir la puntuación de Imdb.' },
+      { type: 'min', message: 'La puntuación debe estar comprendida entre 0 y 10.' },
+      { type: 'max', message: 'La puntuación debe estar comprendida entre 0 y 10.' },
     ],
     'actors': [
       { type: 'required', message: 'Debe de seleccionar al menos un actor' }
@@ -141,11 +150,10 @@ export class EditMovieComponent implements OnInit {
       .finally(() => this.loading = false)
       .then(async res => {
         this.router.navigate(['/pages/movies/list']);
-        this.utilService.showToast(ToastMessage.CreateOK, 'Película');
+        this.utilService.showToast(ToastMessage.CreateOK, this.translate.instant('toast.movie'));
       })
       .catch((error) => {
-        this.utilService.showToast(ToastMessage.ErrorGeneric);
-        console.log(error);
+        this.utilService.showToast(ToastMessage.ShowError, this.translate.instant('edit-movie.show-error'));
       });
   }
 
@@ -156,11 +164,10 @@ export class EditMovieComponent implements OnInit {
       .finally(() => this.loading = false)
       .then(async res => {
         this.router.navigate(['/pages/movies/list']);
-        this.utilService.showToast(ToastMessage.UpdateOK, 'Película');
+        this.utilService.showToast(ToastMessage.UpdateOK, this.translate.instant('toast.movie'));
       })
       .catch((error) => {
-        this.utilService.showToast(ToastMessage.ErrorGeneric);
-        console.log(error);
+        this.utilService.showToast(ToastMessage.ShowError, this.translate.instant('edit-movie.show-error'));
       });
   }
 }

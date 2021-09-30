@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
+import { AlertMessage } from './AlertMessage';
 import { ToastMessage } from './ToastMessage';
 
 @Injectable({
@@ -10,7 +13,8 @@ export class UtilService {
 
   public titleHeader: string = 'Inicio';
 
-  constructor(private toastr: ToastrService) {
+  constructor(private toastr: ToastrService,
+    private translate: TranslateService) {
   }
 
   public genre = [
@@ -28,47 +32,91 @@ export class UtilService {
     "War"
   ];
 
+  public languages = [
+    {
+      title: 'Español',
+      value: 'es',
+      key: 'es'
+    }/*,
+    {
+      title: 'Inglés',
+      value: 'en',
+      key: 'en'
+    }*/
+  ];
+
   //#region TOAST
   showToast(m: ToastMessage, alias?: string, response?: string) {
     let message: string;
     let type: any;
     switch (m) {
       case ToastMessage.CreateOK:
-        message = `${alias} creada correctamente`;
+        message = `${alias} ${this.translate.instant('toast.create-ok')}`;
         type = 'toast-success';
         break;
       case ToastMessage.UpdateOK:
-        message = `${alias} actualizada correctamente`;
+        message = `${alias} ${this.translate.instant('toast.update-ok')}`;
         type = 'toast-success';
         break;
       case ToastMessage.DeleteOK:
-        message = `${alias} eliminada correctamente`;
+        message = `${alias} ${this.translate.instant('toast.delete-ok')}`;
         type = 'toast-success';
         break;
-      case ToastMessage.ValidationError:
-        message = `Debe de completar los campos marcados en rojo`;
-        type = 'toast-warning';
+      case ToastMessage.ShowError:
+        message = this.translate.instant('toast.show-error');
+        type = 'toast-error';
         break;
-      case ToastMessage.NotImplemented:
-        message = `Estamos trabajando en ello. Disculpe las molestias.`;
+      case ToastMessage.ValidationError:
+        message = this.translate.instant('toast.validation-error');
         type = 'toast-warning';
         break;
       case ToastMessage.ErrorResponse:
         message = response;
         type = 'toast-error';
         break;
-      case ToastMessage.ErrorGeneric:
-        message = `Ha ocurrido un error. Vuelva a intentarlo.`;
-        type = 'toast-error';
-        break;
-      case ToastMessage.NotAuthorized:
-        message = `No tiene permiso para realizar la acción seleccionada`;
-        type = 'toast-error';
-        break;
     }
     this.toastr.show(message, '', undefined, type);
   }
   //#endregion TOAST
+
+  //#region SWEET ALERT
+  async message(type: AlertMessage, alias?: string, extra?: string, response?: string) {
+    let title: string;
+    let text: string;
+    let icon: any;
+    let showCancelButton;
+    let confirmButtonText: string = 'Volver';
+    let cancelButtonText: string;
+
+    let result: any;
+
+    switch (type) {
+      case AlertMessage.GenericQuestion:
+        title = this.translate.instant('sweet-alert.warning');
+        text = `${this.translate.instant('sweet-alert.generic-question')} ${alias}?`;
+        icon = "warning";
+        showCancelButton = true;
+        confirmButtonText = "Sí";
+        cancelButtonText = "No";
+        break;
+      default:
+        break;
+    }
+
+    if (title != undefined || text != undefined) {
+      result = await Swal.fire({
+        title,
+        text: text.charAt(0).toUpperCase() + text.slice(1),
+        icon,
+        showCancelButton,
+        confirmButtonText,
+        cancelButtonText
+      });
+
+      return result;
+    }
+  }
+  //#endregion SWEET ALERT
 
   validateForm(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach(field => {

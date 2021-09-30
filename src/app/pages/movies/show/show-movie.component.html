@@ -2,7 +2,16 @@
     <div class="lds-dual-ring"></div>
 </div>
 
-<nb-card *ngIf="!loading">
+<div class="col-12 center" *ngIf="!loading && movie == undefined">
+    <div class="row justify-center">
+        <img src="assets/svg/alert-triangle.svg" class="img-triangle">
+    </div>
+    <div class="row justify-center">
+        <span class="bold text-center">{{'show-movie.empty' | translate }}</span>
+    </div>
+</div>
+
+<nb-card *ngIf="!loading && movie != undefined">
     <nb-card-header>{{movie.title}} ({{movie.year}})</nb-card-header>
     <nb-card-body>
         <div class="row justify-center">
@@ -11,7 +20,7 @@
         <div class="row mt-3">
             <div class="col-6">
                 <div class="row">
-                    <span class="bold">Puntuación</span>
+                    <span class="bold">{{'show-movie.imdbRating' | translate }}</span>
                 </div>
                 <div class="row">
                     <p>{{movie.imdbRating}}</p>
@@ -19,7 +28,7 @@
             </div>
             <div class="col-6">
                 <div class="row">
-                    <span class="text-end bold">Duración</span>
+                    <span class="text-end bold">{{'show-movie.duration' | translate }}</span>
                 </div>
                 <div class="row">
                     <p class="text-end">{{movie.duration}} min</p>
@@ -27,7 +36,7 @@
             </div>
         </div>
         <div class="row mt-3">
-            <span class="bold horizontal-line">Actores</span>
+            <span class="bold horizontal-line">{{'show-movie.actors' | translate }}</span>
             <div class="col-6 col-md-4 col-xl-3 mt-3" *ngFor="let a of actors">
                 <nb-user [name]="a.first_name" [title]="a.last_name">
                 </nb-user>
@@ -35,7 +44,7 @@
 
         </div>
         <div class="row mt-3">
-            <span class="bold horizontal-line">Géneros</span>
+            <span class="bold horizontal-line">{{'show-movie.genre' | translate }}</span>
             <div class="col-6 col-md-4 col-xl-3 mt-3" *ngFor="let g of movie.genre">
                 <p>#{{g}}</p>
             </div>
@@ -43,12 +52,13 @@
     </nb-card-body>
 </nb-card>
 
-<a href="#/pages/movies/edit/{{movie.id}}">
+<a href="#/pages/movies/edit/{{movie.id}}" *ngIf="!loading && movie != undefined">
     <button nbButton status="success" shape="round" size="giant" class="floating-edit">
         <nb-icon icon="edit"></nb-icon>
     </button>
 </a>
 
-<button nbButton status="danger" shape="round" size="giant" class="floating-delete" (click)="deleteMovie()">
+<button nbButton status="danger" shape="round" size="giant" class="floating-delete" (click)="deleteMovie()"
+    *ngIf="!loading && movie != undefined">
     <nb-icon icon="trash-2"></nb-icon>
 </button>

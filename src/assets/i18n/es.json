@@ -1,0 +1,56 @@
+{
+    "header": {
+        "language": {
+            "es": "Español",
+            "en": "Inglés"
+        }
+    },
+    "menu": {
+        "movies": "Películas",
+        "actors": "Actores",
+        "companies": "Estudios"
+    },
+    "titles": {
+        "movies": "Películas",
+        "actors": "Actores",
+        "companies": "Estudios"
+    },
+    "list-movie": {
+        "empty": "No se encontró ninguna película"
+    },
+    "edit-movie": {
+        "title-create": "Añadir película",
+        "title-edit": "Editar película",
+        "form": {
+            "title": "Título",
+            "poster": "Póster (url)",
+            "genre": "Géneros",
+            "actors": "Actores",
+            "year": "Año",
+            "duration": "Duración",
+            "imdbRating": "Puntuación",
+            "btn-save": "Guardar"
+        },
+        "error-save-movie": "guardar la película"
+    },
+    "show-movie": {
+        "empty": "Ha ocurrido un error al recuperar los datos",
+        "genre": "Géneros",
+        "actors": "Actores",
+        "duration": "Duración",
+        "imdbRating": "Puntuación"
+    },
+    "toast": {
+        "movie": "Película",
+        "create-ok": "creada correctamente.",
+        "update-ok": "actualizada correctamente.",
+        "delete-ok": "eliminada correctamente",
+        "show-error": "Sin conexión. Vuelva a intentarlo más tarde.",
+        "validation-error": "Debe de completar los campos marcados en rojo"
+    },
+    "sweet-alert": {
+        "warning": "Atención",
+        "generic-question": "¿Está seguro que desea",
+        "delete-movie": "eliminar la película"
+    }
+}

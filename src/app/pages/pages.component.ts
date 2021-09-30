@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { TranslationService } from '../@core/services/translation.service';
 import { MENU_ITEMS } from './pages-menu';
 
 @Component({
@@ -15,10 +17,15 @@ export class PagesComponent implements OnInit {
 
   public menu;
 
-  constructor() { }
+  constructor(private translate: TranslateService,
+    private translationService: TranslationService) { }
 
   ngOnInit() {
     this.menu = MENU_ITEMS;
+    this.translationService.translateArray(this.menu, 'menu');
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.translationService.translateArray(this.menu, 'menu');
+    });
   }
 
 }

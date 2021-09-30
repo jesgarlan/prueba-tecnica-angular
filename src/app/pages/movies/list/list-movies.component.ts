@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { MoviesService } from 'src/app/@core/services/movies.service';
 import { ToastMessage } from 'src/app/@core/services/ToastMessage';
 import { UtilService } from 'src/app/@core/services/util.service';
@@ -14,7 +15,8 @@ export class ListMoviesComponent implements OnInit {
   public loading: boolean;
 
   constructor(private moviesService: MoviesService,
-    private utilService: UtilService) {
+    private utilService: UtilService,
+    private translate: TranslateService) {
   }
 
   ngOnInit() {
@@ -23,14 +25,14 @@ export class ListMoviesComponent implements OnInit {
   }
 
   async getMovies() {
-    let res = await this.moviesService.getMovies();
-    if (res) {
-      this.movies = res.body;
-      console.log(this.movies);
-    }
-    else
-      this.utilService.showToast(ToastMessage.ErrorGeneric);
-    this.loading = false;
+    await this.moviesService.getMovies()
+      .finally(() => this.loading = false)
+      .then((res) => {
+        this.movies = res.body;
+      })
+      .catch((error) => {
+        this.utilService.showToast(ToastMessage.ShowError, this.translate.instant('edit-movie.show-error'));
+      });
   }
 
 }

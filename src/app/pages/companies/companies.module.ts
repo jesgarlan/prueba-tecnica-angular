@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CompaniesComponent } from './companies.component';
 import { ThemeModule } from 'src/app/@theme/theme.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -9,7 +10,8 @@ import { ThemeModule } from 'src/app/@theme/theme.module';
   declarations: [CompaniesComponent],
   imports: [
     CommonModule,
-    ThemeModule
+    ThemeModule,
+    TranslateModule.forChild()
   ]
 })
 export class CompaniesModule { }

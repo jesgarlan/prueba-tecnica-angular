@@ -6,15 +6,15 @@
     <div class="col-md-12">
         <nb-card>
             <nb-card-header>
-                <div class="left bold fs-title"> {{sTitulo}} </div>
+                <div> {{ sTitulo }} </div>
             </nb-card-header>
             <nb-card-body>
                 <form [formGroup]="formEdit" (ngSubmit)="submitForm()">
                     <!-- TITLE -->
                     <div class="form-group">
-                        <label>Título</label>
+                        <label>{{'edit-movie.form.title' | translate }}</label>
                         <input nbInput fullWidth type="text" class="form-control" formControlName="title"
-                            placeholder="Título"
+                            placeholder="{{'edit-movie.form.title' | translate }}"
                             [status]="formEdit.controls.title.dirty ? (formEdit.controls.title.invalid ? 'danger' : 'success') : ''">
                         <div class="error" *ngIf="formEdit.controls.title.invalid && formEdit.controls.title.dirty">
                             <i class="fa fa-exclamation-circle mr-1"></i>
@@ -24,15 +24,16 @@
 
                     <!-- POSTER -->
                     <div class="form-group">
-                        <label>Póster (url)</label>
+                        <label>{{'edit-movie.form.poster' | translate }}</label>
                         <input nbInput fullWidth type="text" class="form-control" formControlName="poster"
-                            placeholder="Póster (url)">
+                            placeholder="{{'edit-movie.form.poster' | translate }}">
                     </div>
 
                     <!-- GENRE -->
                     <div class="form-group">
-                        <label>Géneros</label>
-                        <nb-select multiple fullWidth placeholder="Añade un género" formControlName="genre">
+                        <label>{{'edit-movie.form.genre' | translate }}</label>
+                        <nb-select multiple fullWidth placeholder="{{'edit-movie.form.genre' | translate }}"
+                            formControlName="genre">
                             <nb-option *ngFor="let g of genre" value="{{g}}">{{g}}
                             </nb-option>
                         </nb-select>
@@ -40,8 +41,9 @@
 
                     <!-- ACTORS -->
                     <div class="form-group">
-                        <label>Actores</label>
-                        <nb-select multiple fullWidth placeholder="Selecciona un actor" formControlName="actors">
+                        <label>{{'edit-movie.form.actors' | translate }}</label>
+                        <nb-select multiple fullWidth placeholder="{{'edit-movie.form.actors' | translate }}"
+                            formControlName="actors">
                             <nb-option *ngFor="let a of actors" value="{{a.id}}">{{a.first_name}} {{a.last_name}}
                             </nb-option>
                         </nb-select>
@@ -53,44 +55,64 @@
 
                     <!-- YEAR -->
                     <div class="form-group">
-                        <label>Año</label>
+                        <label>{{'edit-movie.form.year' | translate }}</label>
                         <input nbInput fullWidth type="number" class="form-control" formControlName="year"
-                            placeholder="Año"
+                            placeholder="{{'edit-movie.form.year' | translate }}"
                             [status]="formEdit.controls.year.dirty ? (formEdit.controls.year.invalid ? 'danger' : 'success') : ''">
                         <div class="error" *ngIf="formEdit.controls.year.invalid && formEdit.controls.year.dirty">
                             <i class="fa fa-exclamation-circle mr-1"></i>
-                            <span>{{ validation_messages.year[0].message }}</span>
+                            <span *ngIf="formEdit.controls.year.errors?.required">
+                                {{ validation_messages.year[0].message }}
+                            </span>
+                            <span *ngIf="formEdit.controls.year.errors?.max">
+                                {{ validation_messages.year[1].message }}
+                            </span>
                         </div>
                     </div>
 
                     <!-- DURATION -->
                     <div class="form-group">
-                        <label>Duración</label>
+                        <label>{{'edit-movie.form.duration' | translate }}</label>
                         <input nbInput fullWidth type="number" class="form-control" formControlName="duration"
-                            placeholder="Duración"
+                            placeholder="{{'edit-movie.form.duration' | translate }}"
                             [status]="formEdit.controls.duration.dirty ? (formEdit.controls.duration.invalid ? 'danger' : 'success') : ''">
                         <div class="error"
                             *ngIf="formEdit.controls.duration.invalid && formEdit.controls.duration.dirty">
                             <i class="fa fa-exclamation-circle mr-1"></i>
-                            <span>{{ validation_messages.duration[0].message }}</span>
+                            <span *ngIf="formEdit.controls.duration.errors?.required">
+                                {{ validation_messages.duration[0].message }}
+                            </span>
+                            <span *ngIf="formEdit.controls.duration.errors?.min">
+                                {{ validation_messages.duration[1].message }}
+                            </span>
                         </div>
                     </div>
 
                     <!-- IMDBRATING -->
                     <div class="form-group">
-                        <label>Puntuación</label>
+                        <label>{{'edit-movie.form.imdbRating' | translate }}</label>
                         <input nbInput fullWidth type="number" class="form-control" formControlName="imdbRating"
-                            placeholder="Puntuación"
+                            placeholder="{{'edit-movie.form.imdbRating' | translate }}"
                             [status]="formEdit.controls.imdbRating.dirty ? (formEdit.controls.imdbRating.invalid ? 'danger' : 'success') : ''">
                         <div class="error"
                             *ngIf="formEdit.controls.imdbRating.invalid && formEdit.controls.imdbRating.dirty">
                             <i class="fa fa-exclamation-circle mr-1"></i>
-                            <span>{{ validation_messages.imdbRating[0].message }}</span>
+                            <span *ngIf="formEdit.controls.imdbRating.errors?.required">
+                                {{ validation_messages.imdbRating[0].message }}
+                            </span>
+                            <span *ngIf="formEdit.controls.imdbRating.errors?.min">
+                                {{ validation_messages.imdbRating[1].message }}
+                            </span>
+                            <span *ngIf="formEdit.controls.imdbRating.errors?.max">
+                                {{ validation_messages.imdbRating[2].message }}
+                            </span>
                         </div>
                     </div>
 
                     <div class="row mt-3 mi-auto">
-                        <button nbButton status="success" type="submit" [disabled]="!formEdit.valid">Guardar</button>
+                        <button nbButton status="success" type="submit" [disabled]="!formEdit.valid">
+                            {{'edit-movie.form.btn-save' | translate }}
+                        </button>
                     </div>
                 </form>
             </nb-card-body>
