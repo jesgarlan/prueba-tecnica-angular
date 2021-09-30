@@ -23,12 +23,4 @@ import { takeWhile } from 'rxjs/operators';
 })
 export class OneColumnLayoutComponent {
 
-  alive = true;
-
-  constructor(private menuService: NbMenuService,
-    private sidebarService: NbSidebarService) {
-    this.menuService.onItemSelect()
-      .pipe(takeWhile(() => this.alive))
-      .subscribe(() => this.sidebarService.collapse('menu-sidebar'));
-  }
 }
