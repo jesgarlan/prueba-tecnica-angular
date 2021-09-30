@@ -33,6 +33,10 @@
     }
 }
 
+nb-card {
+    height: 100%;
+}
+
 nb-list-item {
     padding: 0%;
 }
@@ -56,5 +60,29 @@ img {
 }
 
 .justify-center {
+    justify-content: center;
+}
+
+//PAGINATION
+.pagination ::ng-deep .ngx-pagination .pagination-previous,
+.pagination ::ng-deep .ngx-pagination .pagination-next {
+    color: #8f9bb3;
+}
+
+.pagination ::ng-deep .ngx-pagination .current {
+    background-color: #004976;
+}
+
+.pagination ::ng-deep .ngx-pagination a {
+    color: black;
+    text-decoration: none;
+}
+
+.pagination ::ng-deep .ngx-pagination a:hover {
+    color: black;
+    background: transparent;
+}
+
+.pagination {
     justify-content: center;
 }

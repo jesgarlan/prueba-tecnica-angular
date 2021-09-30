@@ -22,6 +22,16 @@ export class MoviesService {
     return await this.http.get(url, { headers, observe: 'response' }).toPromise();
   }
 
+  async getMoviesPage(page: number, pageSize: number): Promise<any> {
+    let headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    });
+    let url = `${this.url}/movies?_start=${pageSize * (page - 1)}&_limit=${pageSize}`;
+    return await this.http.get(url, { headers, observe: 'response' }).toPromise();
+  }
+
+
   async getMovieByID(id: string): Promise<any> {
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',

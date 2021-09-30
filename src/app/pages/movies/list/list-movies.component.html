@@ -12,7 +12,8 @@
 </div>
 
 <div class="row" *ngIf="!loading">
-    <div class="col-12 col-sm-4 col-md-4" *ngFor="let m of movies">
+    <div class="col-12 col-sm-4 col-md-4 mt-2"
+        *ngFor="let m of movies | paginate: { itemsPerPage: 3, currentPage: p, totalItems: totalCount }">
         <a href="#/pages/movies/show/{{m.id}}" class="td-none">
             <nb-card class="w-100">
                 <nb-card-header>{{m.title}}</nb-card-header>
@@ -34,4 +35,9 @@
             <nb-icon icon="plus"></nb-icon>
         </button>
     </a>
+
+    <div class="row mt-4 justify-center" *ngIf="movies.length > 0 && !loading">
+        <pagination-controls class="pagination" (pageChange)="pageChanged($event)" previousLabel="" nextLabel="">
+        </pagination-controls>
+    </div>
 </div>

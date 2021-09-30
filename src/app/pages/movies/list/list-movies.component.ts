@@ -13,6 +13,9 @@ export class ListMoviesComponent implements OnInit {
 
   public movies: [] = [];
   public loading: boolean;
+  public p: number = 1;
+  public pageSize: number = 3;
+  public totalCount: number;
 
   constructor(private moviesService: MoviesService,
     private utilService: UtilService,
@@ -21,18 +24,24 @@ export class ListMoviesComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    this.getMovies();
+    this.getMoviesPage();
   }
 
-  async getMovies() {
-    await this.moviesService.getMovies()
+  async getMoviesPage() {
+    await this.moviesService.getMoviesPage(this.p, this.pageSize)
       .finally(() => this.loading = false)
       .then((res) => {
         this.movies = res.body;
+        this.totalCount = res.headers.get('X-Total-Count');
       })
       .catch((error) => {
         this.utilService.showToast(ToastMessage.ShowError, this.translate.instant('edit-movie.show-error'));
       });
   }
 
+  pageChanged(event) {
+    this.loading = true;
+    this.p = event;
+    this.getMoviesPage();
+  }
 }
