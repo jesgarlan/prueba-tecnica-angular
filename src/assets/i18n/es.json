@@ -31,7 +31,28 @@
             "imdbRating": "Puntuación",
             "btn-save": "Guardar"
         },
-        "error-save-movie": "guardar la película"
+        "error-save-movie": "guardar la película",
+        "validations": {
+            "title": {
+                "required": "Debe de introducir un título."
+            },
+            "year": {
+                "required": "Debe de introducir un año.",
+                "max": "El año no puede ser superior al actual."
+            },
+            "duration": {
+                "required": "Debe de introducir una duración.",
+                "min": "La duración no pude ser inferior a 0."
+            },
+            "imdbRating": {
+                "required": "Debe de introducir la puntuación de Imdb.",
+                "min": "La puntuación debe estar comprendida entre 0 y 10.",
+                "max": "La puntuación debe estar comprendida entre 0 y 10."
+            },
+            "actors": {
+                "required": "Debe de seleccionar al menos un actor"
+            }
+        }
     },
     "show-movie": {
         "empty": "Ha ocurrido un error al recuperar los datos",

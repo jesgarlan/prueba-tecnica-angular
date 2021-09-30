@@ -105,23 +105,23 @@ export class EditMovieComponent implements OnInit {
 
   validation_messages = {
     'title': [
-      { type: 'required', message: 'Debe de introducir un título.' },
+      { type: 'required', message: this.translate.instant('edit-movie.validations.title.required') },
     ],
     'year': [
-      { type: 'required', message: 'Debe de introducir un año.' },
-      { type: 'max', message: 'El año no puede ser superior al actual.' }
+      { type: 'required', message: this.translate.instant('edit-movie.validations.year.required') },
+      { type: 'max', message: this.translate.instant('edit-movie.validations.year.max') }
     ],
     'duration': [
-      { type: 'required', message: 'Debe de introducir una duración.' },
-      { type: 'min', message: 'La duración no pude ser inferior a 0.' }
+      { type: 'required', message: this.translate.instant('edit-movie.validations.duration.required') },
+      { type: 'min', message: this.translate.instant('edit-movie.validations.duration.min') }
     ],
     'imdbRating': [
-      { type: 'required', message: 'Debe de introducir la puntuación de Imdb.' },
-      { type: 'min', message: 'La puntuación debe estar comprendida entre 0 y 10.' },
-      { type: 'max', message: 'La puntuación debe estar comprendida entre 0 y 10.' },
+      { type: 'required', message: this.translate.instant('edit-movie.validations.imdbRating.required') },
+      { type: 'min', message: this.translate.instant('edit-movie.validations.imdbRating.min') },
+      { type: 'max', message: this.translate.instant('edit-movie.validations.imdbRating.max') },
     ],
     'actors': [
-      { type: 'required', message: 'Debe de seleccionar al menos un actor' }
+      { type: 'required', message: this.translate.instant('edit-movie.validations.actors.required') }
     ]
   };
 
