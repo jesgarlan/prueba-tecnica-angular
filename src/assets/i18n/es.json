@@ -1,5 +1,6 @@
 {
     "header": {
+        "title": "Películas",
         "language": {
             "es": "Español",
             "en": "Inglés"
@@ -63,8 +64,8 @@
     },
     "toast": {
         "movie": "Película",
-        "create-ok": "creada correctamente.",
-        "update-ok": "actualizada correctamente.",
+        "create-ok": "creada correctamente",
+        "update-ok": "actualizada correctamente",
         "delete-ok": "eliminada correctamente",
         "show-error": "Sin conexión. Vuelva a intentarlo más tarde.",
         "validation-error": "Debe de completar los campos marcados en rojo"

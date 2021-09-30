@@ -25,6 +25,7 @@ export class ListMoviesComponent implements OnInit {
   ngOnInit() {
     this.loading = true;
     this.getMoviesPage();
+    this.utilService.titleHeader = 'Hola';
   }
 
   async getMoviesPage() {

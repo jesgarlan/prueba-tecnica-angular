@@ -11,10 +11,11 @@ import { ToastMessage } from './ToastMessage';
 })
 export class UtilService {
 
-  public titleHeader: string = 'Inicio';
+  public titleHeader: string;
 
   constructor(private toastr: ToastrService,
     private translate: TranslateService) {
+    this.titleHeader = this.translate.instant('header.title');
   }
 
   public genre = [
